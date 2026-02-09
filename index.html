@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Forever Person</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff4d6d;
+            --soft-pink: #ffb3c1;
+            --cream: #fff0f3;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            background-color: var(--cream);
+        }
+
+        section {
+            display: none;
+            height: 100vh; width: 100vw;
+            justify-content: center; align-items: center;
+            text-align: center;
+            transition: opacity 0.8s ease;
+        }
+
+        section.active { display: flex; flex-direction: column; opacity: 1; }
+
+        #page1 {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('her-photo.jpeg') no-repeat center center/cover;
+        }
+
+        #page2, #page3, #page4 {
+            background: linear-gradient(135deg, var(--cream) 0%, var(--soft-pink) 100%);
+        }
+
+        .content {
+            z-index: 10; padding: 30px; max-width: 500px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            margin: 20px;
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 4rem; color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        h2 { color: var(--primary-pink); font-family: 'Dancing Script', cursive; font-size: 2.5rem; }
+        p { font-size: 1rem; line-height: 1.6; color: #444; }
+
+        button {
+            background: var(--primary-pink); color: white;
+            border: none; padding: 15px 40px;
+            font-size: 1.1rem; font-weight: 600;
+            border-radius: 50px; cursor: pointer;
+            transition: 0.3s; margin-top: 20px;
+        }
+
+        button:hover { transform: scale(1.1); box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); }
+
+        .no-btn { background: #adb5bd; margin-left: 10px; }
+
+        #page4 h2 { font-size: 3rem; animation: pulse 1.5s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <section id="page1" class="active">
+        <h1>Hi Beautiful...</h1>
+        <button onclick="nextPage('page2')">Open Your Heart ❤️</button>
+    </section>
+
+    <section id="page2">
+        <div class="content">
+            <h2>Hey babyyyyy❤️</h2>
+            <p>There is a concept i believe in called <b>“Forever Person”</b>.</p>
+            <p>This is not a person who is perfect, but a person who understands that you can be imperfect and still decided to stay.</p>
+            <p>They stay through the laughters, the fights, and the downs—this person is your ride or die.</p>
+            <p>They may be flaws but they are willing to compromise, they may be decisions but they are willing to be considerate, they initiate and reciprocate, they are your go-to person, your gist and play partner, your religion partner, EVERYTHING!</p>
+            <p>I belief so much in love, and I belief so much in a forever person.</p>
+            <p>If you want to know what that fairytale of ours will look like then click Next!</p>
+            <button onclick="nextPage('page3')">Next ✨</button>
+        </div>
+    </section>
+
+    <section id="page3">
+        <div class="content">
+            <p>Sike I lied, we will not know until we live and create the fairytale...</p>
+            <h2 style="color:#333">So… Will you be my forever person?</h2>
+            <button onclick="celebrate()">Yes! 💍</button>
+            <button id="noBtn" class="no-btn" onmouseover="moveButton()">No</button>
+        </div>
+    </section>
+
+    <section id="page4">
+        <div class="content" style="background:transparent; box-shadow:none;">
+            <h2>It's a YES! ❤️</h2>
+            <p style="font-size: 1.5rem;">“This is the beginning of our fairytale, you may kiss Mtee🌚”</p>
+        </div>
+    </section>
+
+    <script>
+        function nextPage(pageId) {
+            const music = document.getElementById('bgMusic');
+            music.play();
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+        // 1. Send you a silent notification email
+        fetch('https://formspree.io/f/maqdnvnd', {
+            method: 'POST',
+            body: JSON.stringify({ message: "SHE SAID YES! ❤️" }),
+            headers: { 'Accept': 'application/json' }
+        });
+
+        // 2. Start Confetti
+        var end = Date.now() + (5 * 1000);
+        var colors = ['#ff4d6d', '#ffffff', '#ffb3c1'];
+
+        (function frame() {
+            confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: colors });
+            confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
+            if (Date.now() < end) { requestAnimationFrame(frame); }
+        }());
+
+        // 3. Show final page
+        nextPage('page4');
+    }
+</script>
+</body>
+</html>
